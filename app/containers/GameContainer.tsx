@@ -213,26 +213,38 @@ function Game() {
 
     const thirdWidth = width / 3;
     const halfHeight = height / 2;
-
-    if (x < thirdWidth) {
-      // 왼쪽 세로 1/3 구역 터치
-      setCursor((prev) => [prev[0], Math.max(prev[1] - 1, 0)]); // 왼쪽으로 이동
-    } else if (x > thirdWidth * 2) {
-      // 오른쪽 세로 1/3 구역 터치
-      setCursor((prev) => [prev[0], Math.min(prev[1] + 1, columns - 1)]); // 오른쪽으로 이동
-    } else {
-      // 중앙 세로 1/3 구역 터치
-      setSelected((prev) => !prev); // 선택 상태 토글
-    }
+    let newCursor = [...cursor] as [number, number];
 
     if (y < halfHeight) {
       // 상단 가로 1/2 구역 터치
+      console.log("addRow");
       addRow(); // 새로운 행 추가
+      return;
     }
+
+    if (x < thirdWidth) {
+      newCursor = [newCursor[0], 0];
+      setSelected((prev) => !prev);
+      if (selected) moveBlock(newCursor);
+      console.log("left");
+    } else if (x > thirdWidth * 2) {
+      newCursor = [newCursor[0], 2];
+      setSelected((prev) => !prev);
+      if (selected) moveBlock(newCursor);
+      console.log("right");
+    } else {
+      // 중앙 세로 1/3 구역 터치
+      newCursor = [newCursor[0], 1];
+      setSelected((prev) => !prev);
+      if (selected) moveBlock(newCursor);
+      console.log("down");
+    }
+    setCursor(newCursor);
   };
 
   return (
     <div
+      className="flex items-center h-screen flex-col justify-start"
       tabIndex={0}
       onKeyDown={handleKeyDown}
       onTouchStart={handleTouchStart} // 터치 이벤트 핸들러 추가
