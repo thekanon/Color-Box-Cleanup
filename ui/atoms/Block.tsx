@@ -19,6 +19,7 @@ const colors = {
   pink: "bg-pink",
   beige: "bg-beige",
   teal: "bg-teal",
+  none: "bg-transparent",
 };
 
 const Block: React.FC<BlockProps> = ({
@@ -29,7 +30,7 @@ const Block: React.FC<BlockProps> = ({
   // Tailwind CSS 클래스를 동적으로 적용
   const classes = `
     w-24 h-12 
-    ${color ? `${colors[color]}` : "bg-transparent"}
+    ${colors[color]}
     ${isSelected ? "border-4 border-blue-500" : "border border-black"} 
     inline-block cursor-pointer box-border
   
