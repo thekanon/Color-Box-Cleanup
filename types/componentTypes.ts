@@ -1,10 +1,12 @@
 export interface BlockProps {
   color: colorsType;
   isSelected?: boolean; // 블록이 선택되었는지 여부
+  className?: string; // 블록에 추가할 클래스
   onClick?: () => void; // 블록 클릭 시 실행할 함수
 }
 
 export type colorsType =
+  | "removingBlocks"
   | "none"
   | "red"
   | "green"

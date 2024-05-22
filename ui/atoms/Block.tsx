@@ -20,27 +20,25 @@ const colors = {
   beige: "bg-beige",
   teal: "bg-teal",
   none: "bg-transparent",
+  removingBlocks: "bg-transparent",
 };
 
 const Block: React.FC<BlockProps> = ({
   color,
   isSelected = false,
   onClick,
+  className,
 }) => {
   // Tailwind CSS 클래스를 동적으로 적용
   const classes = `
-    w-24 h-12 
+    w-28 h-9
     ${colors[color]}
     ${isSelected ? "border-4 border-blue-500" : "border border-black"} 
     inline-block cursor-pointer box-border
-  
+    ${className}
   `;
 
-  return (
-    <div className={classes} onClick={onClick}>
-      {/* 블록 내에 추가적인 내용이 필요하면 여기에 렌더링 */}
-    </div>
-  );
+  return <div className={classes} onClick={onClick}></div>;
 };
 
 export default Block;

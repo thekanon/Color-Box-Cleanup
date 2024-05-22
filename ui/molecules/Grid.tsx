@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Block from "../atoms/Block";
 import { GridProps } from "@/types/componentTypes";
 
@@ -8,6 +8,10 @@ const Grid: React.FC<GridProps> = ({
   blockLocation,
   selected,
 }) => {
+  useEffect(() => {
+    console.log(blockLocation);
+  }, [blockLocation]);
+
   return (
     <div>
       {grid.map((row, rowIndex) => (
@@ -15,6 +19,13 @@ const Grid: React.FC<GridProps> = ({
           {row.map((block, colIndex) => (
             <Block
               key={colIndex}
+              className={
+                blockLocation &&
+                blockLocation[1] === colIndex &&
+                block.color === "none"
+                  ? "transition-color"
+                  : ""
+              }
               color={block.color}
               onClick={() => onBlockClick && onBlockClick(rowIndex, colIndex)}
               isSelected={

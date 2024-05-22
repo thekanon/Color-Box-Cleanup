@@ -9,23 +9,65 @@ import React, {
 import { BlockProps, colorsType, gridType } from "@/types/componentTypes";
 import Grid from "@/ui/molecules/Grid";
 
-const colors: colorsType[] = ["red", "green", "blue"];
-const maxRows: number = 12;
+const colors: colorsType[] = [
+  "red",
+  "green",
+  "blue",
+  "yellow",
+  "purple",
+  "cyan",
+  "magenta",
+  "orange",
+  "gray",
+];
+const maxRows: number = 14;
 const columns: number = 3;
-const firstRow: BlockProps[] = Array.from({ length: columns }, () => ({
-  color: colors[Math.floor(Math.random() * colors.length)],
-}));
+const timeLimit: number = 10;
+const firstGrid: BlockProps[][] = Array.from({ length: 7 }, () =>
+  Array.from({ length: columns }, () => ({
+    color: colors[Math.floor(Math.random() * 3)],
+  }))
+);
 
 function Game() {
   const containerRef = useRef<HTMLDivElement>(null); // useRef를 생성합니다.
 
   const [grid, setGrid] = useState<gridType>([]);
   // 레벨 별로 색상을 변경할 수 있도록 `currentColors` 상태 추가
-  const [currentColors, setCurrentColors] = useState<colorsType[]>(colors);
   const [level, setLevel] = useState<number>(1);
+  const [currentColors, setCurrentColors] = useState<colorsType[]>(
+    colors.slice(0, level + 2)
+  );
   const [score, setScore] = useState<number>(0);
   const [cursor, setCursor] = useState<[number, number]>([0, 1]);
   const [selected, setSelected] = useState<boolean>(false);
+  const [timeLeft, setTimeLeft] = useState(timeLimit);
+
+  const levelUp = useCallback(() => {
+    console.log("Level Up!");
+    setLevel((prevLevel) => prevLevel + 1);
+  }, [setLevel]);
+
+  useEffect(() => {
+    setCurrentColors(colors.slice(0, level + 2));
+  }, [level]);
+
+  useEffect(() => {
+    if (timeLeft + 3 > timeLimit) {
+      setTimeLeft(timeLimit);
+    } else {
+      setTimeLeft((prevTime) => prevTime + 3);
+    }
+
+    if (score > 20 * level) {
+      levelUp();
+    }
+  }, [score, levelUp]);
+
+  useEffect(() => {
+    if (grid.length === 0) return;
+    checkForConsecutiveColors(grid);
+  }, [grid]);
 
   const checkForConsecutiveColors = useCallback(
     (currentGrid: gridType) => {
@@ -108,16 +150,30 @@ function Game() {
       newCursor--;
     }
 
-    console.log("newCursor", [newCursor, cursor[1]]);
     if (newCursor !== cursor[0]) setCursor([newCursor, cursor[1]]);
   }, [cursor]);
 
   useEffect(() => {
-    setGrid([firstRow]);
+    setGrid(firstGrid);
     if (containerRef.current) {
       containerRef.current.focus();
     }
   }, []);
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      // 타이머가 끝났을 때의 동작 (예: 게임 리셋)
+      setScore(0);
+      setTimeLeft(timeLimit);
+      return;
+    }
+
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
 
   useEffect(() => {
     calculateCursor();
@@ -202,7 +258,13 @@ function Game() {
       default:
         break;
     }
-    setCursor(newCursor);
+
+    let newCursorY = grid.length - 1;
+    while (newCursorY >= 0 && grid[newCursorY][newCursor[1]].color === "none") {
+      newCursorY--;
+    }
+
+    setCursor([newCursorY, newCursor[1]]);
   };
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     const touch = event.touches[0]; // 첫 번째 터치 정보를 가져옵니다.
@@ -243,17 +305,36 @@ function Game() {
   };
 
   return (
-    <div
-      className="flex items-center h-screen flex-col justify-start"
-      tabIndex={0}
-      onKeyDown={handleKeyDown}
-      onTouchStart={handleTouchStart} // 터치 이벤트 핸들러 추가
-      style={{ outline: "none" }}
-      ref={containerRef} // ref를 div에 할당합니다.
-    >
-      <Grid selected={selected} blockLocation={cursor} grid={grid} />
-      {`score: ${score}`}
-    </div>
+    <>
+      <div
+        className="flex items-center h-screen flex-col justify-start"
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onTouchStart={handleTouchStart} // 터치 이벤트 핸들러 추가
+        style={{ outline: "none" }}
+        ref={containerRef} // ref를 div에 할당합니다.
+      >
+        <div
+          className="bg-blue h-6 rounded-full text-white text-center font-bold text-sm transition-all duration-300 ease-in-out overflow-hidden shadow-lg mb-2"
+          style={{
+            width: `${(timeLeft / timeLimit) * 100}%`,
+          }}>
+          <div
+            className="fixed top-0 left-0 h-6 rounded-full text-white text-center font-bold text-sm"
+            style={{ width: "100%" }}>
+            {`Score: ${score}`}
+          </div>
+        </div>
+        <Grid selected={selected} blockLocation={cursor} grid={grid} />
+      </div>
+      <div className="fixed bottom-0 w-full text-center mb-4 px-4">
+        <button
+          className="bg-teal text-white w-full font-bold py-2 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-100 active:scale-95"
+          onClick={addRow}>
+          Add Block
+        </button>
+      </div>
+    </>
   );
 }
 
