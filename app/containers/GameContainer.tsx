@@ -320,8 +320,8 @@ function Game() {
             width: `${(timeLeft / timeLimit) * 100}%`,
           }}>
           <div
-            className="fixed top-0 left-0 h-6 rounded-full text-white text-center font-bold text-sm"
-            style={{ width: "100%" }}>
+            className="w-full 
+            fixed top-0 left-0 h-6 rounded-full text-white text-center font-bold text-sm">
             {`Score: ${score}`}
           </div>
         </div>
