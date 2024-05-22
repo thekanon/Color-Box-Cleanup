@@ -53,11 +53,7 @@ function Game() {
   }, [level]);
 
   useEffect(() => {
-    if (timeLeft + 3 > timeLimit) {
-      setTimeLeft(timeLimit);
-    } else {
-      setTimeLeft((prevTime) => prevTime + 3);
-    }
+    updateTime(2);
 
     if (score > 20 * level) {
       levelUp();
@@ -288,9 +284,17 @@ function Game() {
     setCursor(newCursor);
   };
 
+  const updateTime = (n: number) => {
+    if (timeLeft + n > timeLimit) {
+      setTimeLeft(timeLimit);
+    } else {
+      setTimeLeft((prevTime) => prevTime + n);
+    }
+  };
+
   const addRowHandle = () => {
     setSelected(false);
-    setTimeLeft((prevTime) => prevTime + 1);
+    updateTime(1);
     addRow();
   };
 
