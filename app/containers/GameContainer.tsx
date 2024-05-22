@@ -138,7 +138,6 @@ function Game() {
     // 그리드에 새 행 추가
     const newGrid = [newRow, ...grid.slice(0, maxRows - 1)] as gridType;
     setGrid(newGrid);
-    console.log("addRow");
     checkForConsecutiveColors(grid);
   }, [grid]); // `grid`를 의존성 배열에 포함
 
@@ -178,14 +177,6 @@ function Game() {
   useEffect(() => {
     calculateCursor();
   }, [grid, cursor]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      addRow();
-    }, 300000);
-
-    return () => clearInterval(interval);
-  }, [addRow]); // `addRow`가 변경될 때마다 인터벌 재설정
 
   const moveBlock = (newCursor: [number, number]) => {
     const newGrid = [...grid];
@@ -241,7 +232,7 @@ function Game() {
         if (selected) moveBlock(newCursor);
         break;
       case "ArrowUp":
-        addRow();
+        addRowHandle();
         break;
       case "ArrowLeft":
         newCursor = [newCursor[0], 0];
@@ -277,13 +268,6 @@ function Game() {
     const halfHeight = height / 2;
     let newCursor = [...cursor] as [number, number];
 
-    if (y < halfHeight) {
-      // 상단 가로 1/2 구역 터치
-      console.log("addRow");
-      addRow(); // 새로운 행 추가
-      return;
-    }
-
     if (x < thirdWidth) {
       newCursor = [newCursor[0], 0];
       setSelected((prev) => !prev);
@@ -304,6 +288,12 @@ function Game() {
     setCursor(newCursor);
   };
 
+  const addRowHandle = () => {
+    setSelected(false);
+    setTimeLeft((prevTime) => prevTime + 1);
+    addRow();
+  };
+
   return (
     <>
       <div
@@ -318,10 +308,12 @@ function Game() {
           className="bg-blue h-6 rounded-full text-white text-center font-bold text-sm transition-all duration-300 ease-in-out overflow-hidden shadow-lg mb-2"
           style={{
             width: `${(timeLeft / timeLimit) * 100}%`,
-          }}>
+          }}
+        >
           <div
             className="w-full 
-            fixed top-0 left-0 h-6 rounded-full text-white text-center font-bold text-sm">
+            fixed top-0 left-0 h-6 rounded-full text-white text-center font-bold text-sm"
+          >
             {`Score: ${score}`}
           </div>
         </div>
@@ -330,7 +322,8 @@ function Game() {
       <div className="fixed bottom-0 w-full text-center mb-4 px-4">
         <button
           className="bg-teal text-white w-full font-bold py-2 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-100 active:scale-95"
-          onClick={addRow}>
+          onClick={addRowHandle}
+        >
           Add Block
         </button>
       </div>
