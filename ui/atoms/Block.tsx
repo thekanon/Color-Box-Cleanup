@@ -33,7 +33,12 @@ const Block: React.FC<BlockProps> = ({
   const classes = `
     w-28 h-9
     ${colors[color]}
-    ${isSelected ? "border-4 border-blue-500" : "border border-black"} 
+    ${
+      color !== "removingBlocks" && color !== "none"
+        ? "border border-black"
+        : ""
+    }
+    ${isSelected ? "border-4 border-blue-500" : ""} 
     inline-block cursor-pointer box-border
     ${className}
   `;

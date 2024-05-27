@@ -299,7 +299,21 @@ function Game() {
   };
 
   return (
-    <>
+    <div className="h-screen flex flex-col">
+      <div
+        className="bg-blue h-6 rounded-full text-white text-left font-bold text-sm transition-all duration-300 ease-in-out overflow-hidden shadow-lg mb-2"
+        style={{
+          width: `${(timeLeft / timeLimit) * 100}%`,
+        }}
+      >
+        <div
+          className="w-full 
+            fixed top-0 left-0 h-6 rounded-full text-white text-center font-bold text-sm"
+        >
+          {`Score: ${score}`}
+        </div>
+      </div>
+
       <div
         className="flex items-center h-screen flex-col justify-start"
         tabIndex={0}
@@ -308,19 +322,6 @@ function Game() {
         style={{ outline: "none" }}
         ref={containerRef} // ref를 div에 할당합니다.
       >
-        <div
-          className="bg-blue h-6 rounded-full text-white text-center font-bold text-sm transition-all duration-300 ease-in-out overflow-hidden shadow-lg mb-2"
-          style={{
-            width: `${(timeLeft / timeLimit) * 100}%`,
-          }}
-        >
-          <div
-            className="w-full 
-            fixed top-0 left-0 h-6 rounded-full text-white text-center font-bold text-sm"
-          >
-            {`Score: ${score}`}
-          </div>
-        </div>
         <Grid selected={selected} blockLocation={cursor} grid={grid} />
       </div>
       <div className="fixed bottom-0 w-full text-center mb-4 px-4">
@@ -331,7 +332,7 @@ function Game() {
           Add Block
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

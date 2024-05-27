@@ -13,14 +13,19 @@ const Grid: React.FC<GridProps> = ({
   }, [blockLocation]);
 
   return (
-    <div>
+    <div className="flex flex-col justify-center gap-1">
       {grid.map((row, rowIndex) => (
-        <div key={rowIndex}>
+        <div
+          key={rowIndex}
+          className="flex justify-center gap-1
+        "
+        >
           {row.map((block, colIndex) => (
             <Block
               key={colIndex}
               className={
                 blockLocation &&
+                blockLocation[0] >= rowIndex - 2 &&
                 blockLocation[1] === colIndex &&
                 block.color === "none"
                   ? "transition-color"
