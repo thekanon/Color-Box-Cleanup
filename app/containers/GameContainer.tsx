@@ -42,6 +42,7 @@ function Game() {
   const [cursor, setCursor] = useState<[number, number]>([0, 1]);
   const [selected, setSelected] = useState<boolean>(false);
   const [timeLeft, setTimeLeft] = useState(timeLimit);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   const levelUp = useCallback(() => {
     console.log("Level Up!");
@@ -158,8 +159,9 @@ function Game() {
   useEffect(() => {
     if (timeLeft === 0) {
       // 타이머가 끝났을 때의 동작 (예: 게임 리셋)
-      setScore(0);
-      setTimeLeft(timeLimit);
+      // setScore(0);
+      // setTimeLeft(timeLimit);
+      setGameOver(true);
       return;
     }
 
@@ -202,6 +204,7 @@ function Game() {
           })) as BlockProps[];
           newRow[newCol] = temp;
           newGrid.push(newRow);
+          updateTime(1);
         } else {
           console.log("더 이상 행을 추가할 수 없습니다.");
           return; // 최대 행수를 초과하므로 이동 취소
@@ -294,7 +297,6 @@ function Game() {
 
   const addRowHandle = () => {
     setSelected(false);
-    updateTime(1);
     addRow();
   };
 
@@ -322,6 +324,25 @@ function Game() {
         style={{ outline: "none" }}
         ref={containerRef} // ref를 div에 할당합니다.
       >
+        {gameOver && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75">
+            <div className="bg-white p-4 rounded-lg shadow-lg text-center">
+              <h2 className="text-2xl font-bold text-red">Game Over!</h2>
+              <p className="text-lg font-bold">Final Score: {score}</p>
+              <button
+                className="bg-teal text-white w-full font-bold py-2 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-100 active:scale-95"
+                onClick={() => {
+                  setGameOver(false);
+                  setScore(0);
+                  setTimeLeft(timeLimit);
+                  setGrid(firstGrid);
+                }}
+              >
+                Restart
+              </button>
+            </div>
+          </div>
+        )}
         <Grid selected={selected} blockLocation={cursor} grid={grid} />
       </div>
       <div className="fixed bottom-0 w-full text-center mb-4 px-4">
