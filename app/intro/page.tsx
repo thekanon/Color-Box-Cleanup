@@ -63,6 +63,11 @@ const Intro = () => {
   return (
     <div className="intro-page h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <h1 className="text-4xl font-bold mb-6">{steps[step].title}</h1>
+      <div
+        data-cb-embedded="banner-group"
+        data-campaign-id="yqezhiipibzc"
+      ></div>
+
       {steps[step].content}
       <div className="mt-6">
         {step < steps.length - 1 ? (

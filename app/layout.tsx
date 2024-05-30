@@ -1,5 +1,4 @@
 "use client";
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
@@ -13,6 +12,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <Script
+        src="https://buttr.dev/butter.js"
+        data-site-id="uqvvwxsqdk"
+        async
+      ></Script>
+
       <body className={inter.className}>{children}</body>
     </html>
   );
