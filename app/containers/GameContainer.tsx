@@ -327,7 +327,11 @@ function Game() {
         {gameOver && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-75">
             <div className="bg-white p-4 rounded-lg shadow-lg text-center">
-              <h2 className="text-2xl font-bold text-red">Game Over!</h2>
+              <h2 className="text-2xl font-bold text-red">아쉽네요!</h2>
+              <div
+                data-cb-embedded="banner-group"
+                data-campaign-id="tjosvljocilv"
+              ></div>
               <p className="text-lg font-bold">Final Score: {score}</p>
               <button
                 className="bg-teal text-white w-full font-bold py-2 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-100 active:scale-95"
@@ -343,6 +347,7 @@ function Game() {
             </div>
           </div>
         )}
+
         <Grid selected={selected} blockLocation={cursor} grid={grid} />
       </div>
       <div className="fixed bottom-0 w-full text-center mb-4 px-4">
