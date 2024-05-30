@@ -1,5 +1,6 @@
-import Game from "@/app/containers/GameContainer";
+import { redirect } from "next/navigation";
+
 export default function Home() {
-  console.log("Home");
-  return <Game />;
+  redirect("/intro");
+  return null;
 }
