@@ -44,7 +44,7 @@ const Intro = () => {
           </li>
           <li>점수가 올라가면 새로운 색상의 블록이 추가됩니다.</li>
           <li>
-            "Add Block" 버튼이나 위쪽 화살표 키를 눌러 새로운 행을 추가하세요.
+            {`'Add Block' 버튼이나 위쪽 화살표 키를 눌러 새로운 행을 추가하세요.`}
           </li>
           <li>타이머에 주의하세요! 시간이 다 되면 게임이 초기화됩니다.</li>
         </ul>
@@ -68,7 +68,8 @@ const Intro = () => {
         {step < steps.length - 1 ? (
           <button
             className="bg-teal text-white font-bold py-2 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-105"
-            onClick={() => setStep(step + 1)}>
+            onClick={() => setStep(step + 1)}
+          >
             다음
           </button>
         ) : (
