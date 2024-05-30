@@ -13,13 +13,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <Head>
-        <Script
-          src="https://buttr.dev/butter.js"
-          data-site-id="uqvvwxsqdk"
-          async
-        ></Script>
-      </Head>
+      <Script
+        src="https://buttr.dev/butter.js"
+        data-site-id="uqvvwxsqdk"
+        async
+      ></Script>
 
       <body className={inter.className}>{children}</body>
     </html>
