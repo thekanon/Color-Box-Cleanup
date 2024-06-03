@@ -336,10 +336,7 @@ function Game() {
               <button
                 className="bg-teal text-white w-full font-bold py-2 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-100 active:scale-95"
                 onClick={() => {
-                  setGameOver(false);
-                  setScore(0);
-                  setTimeLeft(timeLimit);
-                  setGrid(firstGrid);
+                  window.location.reload();
                 }}
               >
                 Restart
