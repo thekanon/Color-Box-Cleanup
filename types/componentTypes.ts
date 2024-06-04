@@ -18,10 +18,10 @@ export type colorsType =
   | "orange"
   | "gray"
   | "olive"
+  | "pink"
   | "darkgreen"
   | "steelblue"
   | "lime"
-  | "pink"
   | "beige"
   | "teal";
 export type gridType = BlockProps[][];

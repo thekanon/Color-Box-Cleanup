@@ -19,6 +19,8 @@ const colors: colorsType[] = [
   "magenta",
   "orange",
   "gray",
+  "olive",
+  "pink",
 ];
 const maxRows: number = 14;
 const columns: number = 3;
@@ -127,6 +129,7 @@ function Game() {
       console.log("게임 오버!");
       return;
     }
+    updateTime(1);
 
     const newRow: BlockProps[] = Array.from({ length: columns }, () => ({
       color: currentColors[Math.floor(Math.random() * currentColors.length)],
@@ -204,7 +207,6 @@ function Game() {
           })) as BlockProps[];
           newRow[newCol] = temp;
           newGrid.push(newRow);
-          updateTime(1);
         } else {
           console.log("더 이상 행을 추가할 수 없습니다.");
           return; // 최대 행수를 초과하므로 이동 취소
