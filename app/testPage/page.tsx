@@ -1,6 +1,6 @@
 const TestPage = () => {
   return (
-    <div>
+    <pre>
       {
         `
 [leedo@localhost DooAI]$ python schedule_manager.py
@@ -492,6 +492,7 @@ This schedule is balanced and achievable, considering the user's work, hobbies, 
 [leedo@localhost DooAI]$
         `
       }
-    </div>
+    </pre>
   );
 }
+export default TestPage
