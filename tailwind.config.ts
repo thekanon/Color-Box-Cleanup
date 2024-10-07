@@ -30,6 +30,8 @@ const config: Config = {
         pink: "#FFCCCC", // 연한 핑크색
         beige: "#FFF5E1", // 연한 베이지색
         teal: "#66CCCC", // 연한 청록색
+        tealDark: "#339999", // 연한 청록색
+        tealLight: "#99FFFF", // 연한 청록색
       },
     },
   },

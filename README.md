@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Color Box Cleanup
 
-## Getting Started
+## 게임 소개
 
-First, run the development server:
+https://youtu.be/DHVqpf5JU48?si=KqExQaULcOG9nm7n&t=905
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+이 게임은 '액션 퍼즐 패밀리'라는 피쳐폰 시절 게임의 미니게임 '이모의 정리정돈'에서 아이디어를 얻었어요. 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+그 게임 재밌게 했었는데 아쉽게도 지금은 서비스가 끝났더라고요.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+다시 하고 싶어서 만들어 보았어요.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 플레이 영상
 
-## Learn More
+https://youtube.com/shorts/3BUB_GRCcuc
 
-To learn more about Next.js, take a look at the following resources:
+## 게임 방법
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+게임 규칙은 정말 간단합니다
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. 화면에 여러 색깔의 박스들이 있어요.
+2. 박스를 클릭해서 선택할 수 있어요.
+3. 선택한 박스를 옆으로 옮길 수 있어요.
+4. 세로로 같은 색 박스 3개를 맞추면 그 박스들이 사라져요.
 
-## Deploy on Vercel
+## 게임 조작
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- 컴퓨터에서는 방향키로, 스마트폰에서는 화면을 터치해서 조작해요.
+- 박스를 클릭하면 선택되고, 굵은 테두리가 생겨요.
+- 선택한 박스는 왼쪽이나 오른쪽으로 옮길 수 있어요.
+- 실수로 선택했다면, 같은 방향으로 한 번 더 누르면 선택이 취소돼요.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## 게임 진행
+
+- 화면 위에 남은 시간이 보여요.
+- 시간이 0이 되면 게임이 끝나요.
+- 화면 아래에 있는 'Add Block' 버튼을 누르면 새 박스가 생기고 시간도 좀 늘어나요.
+- 세로로 같은 색 박스 3개를 맞추면 그 박스들이 사라지고 시간이 늘어나요.
+
+## 게임 종료
+
+- 시간이 다 되면 게임이 끝나요.
+- 게임이 끝나면 점수가 나와요.
+- 점수는 없앤 박스 개수로 계산돼요.
+
+## 앞으로 추가될 기능들
+
+- 점수를 기록하고 다른 사람들과 비교할 수 있는 랭킹 시스템
+- 가로로도 박스를 맞출 수 있게 하기
+- 연속으로 박스를 없애면 보너스 점수를 주는 콤보 시스템

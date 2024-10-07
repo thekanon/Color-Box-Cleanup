@@ -351,7 +351,8 @@ function Game() {
       </div>
       <div className="fixed bottom-0 w-full text-center mb-4 px-4">
         <button
-          className="bg-teal text-white w-full font-bold py-2 px-8 rounded-lg shadow-lg transform transition-transform hover:scale-100 active:scale-95"
+          className="bg-teal text-white w-full font-bold py-2 px-8 rounded-lg shadow-lg 
+          active:bg-tealDark"
           onClick={addRowHandle}
         >
           Add Block
