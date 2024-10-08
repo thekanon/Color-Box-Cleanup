@@ -6,55 +6,46 @@ import React, {
   useRef,
   KeyboardEvent,
 } from "react";
-import { BlockProps, colorsType, gridType } from "@/types/componentTypes";
+import { BlockProps, gridType } from "@/types/componentTypes";
 import Grid from "@/ui/molecules/Grid";
 
-const colors: colorsType[] = [
-  "red",
-  "green",
-  "blue",
-  "yellow",
-  "purple",
-  "cyan",
-  "magenta",
-  "orange",
-  "gray",
-  "olive",
-  "pink",
-];
-const maxRows: number = 14;
-const columns: number = 3;
-const timeLimit: number = 10;
-const firstGrid: BlockProps[][] = Array.from({ length: 7 }, () =>
-  Array.from({ length: columns }, () => ({
-    color: colors[Math.floor(Math.random() * 3)],
-  }))
-);
+import {
+  maxRows,
+  columns,
+  timeLimit,
+} from "@/lib/constants";
+import useGameLogic from "@/app/hooks/useGameLogic";
+import useInitGame from "@/app/hooks/useInitGame";
+import useTimeHandle from "@/app/hooks/useTimeHandle";
+
 
 function Game() {
   const containerRef = useRef<HTMLDivElement>(null); // useRef를 생성합니다.
 
-  const [grid, setGrid] = useState<gridType>([]);
-  // 레벨 별로 색상을 변경할 수 있도록 `currentColors` 상태 추가
-  const [level, setLevel] = useState<number>(1);
-  const [currentColors, setCurrentColors] = useState<colorsType[]>(
-    colors.slice(0, level + 2)
-  );
-  const [score, setScore] = useState<number>(0);
+  const {
+    grid,
+    setGrid,
+  } = useInitGame(containerRef);
+
+  const {
+    level,
+    levelUp,
+    currentColors,
+    score,
+    setScore
+  } = useGameLogic(containerRef);
+
+  const {
+    timeLeft,
+    updateTime,
+    gameOver
+  } = useTimeHandle()
+
   const [cursor, setCursor] = useState<[number, number]>([0, 1]);
   const [selected, setSelected] = useState<boolean>(false);
-  const [timeLeft, setTimeLeft] = useState(timeLimit);
-  const [gameOver, setGameOver] = useState<boolean>(false);
 
-  const levelUp = useCallback(() => {
-    console.log("Level Up!");
-    setLevel((prevLevel) => prevLevel + 1);
-  }, [setLevel]);
 
-  useEffect(() => {
-    setCurrentColors(colors.slice(0, level + 2));
-  }, [level]);
-
+  // 타이머 업데이트
   useEffect(() => {
     updateTime(2);
 
@@ -62,6 +53,7 @@ function Game() {
       levelUp();
     }
   }, [score, levelUp]);
+
 
   useEffect(() => {
     if (grid.length === 0) return;
@@ -152,28 +144,8 @@ function Game() {
     if (newCursor !== cursor[0]) setCursor([newCursor, cursor[1]]);
   }, [cursor]);
 
-  useEffect(() => {
-    setGrid(firstGrid);
-    if (containerRef.current) {
-      containerRef.current.focus();
-    }
-  }, []);
 
-  useEffect(() => {
-    if (timeLeft === 0) {
-      // 타이머가 끝났을 때의 동작 (예: 게임 리셋)
-      // setScore(0);
-      // setTimeLeft(timeLimit);
-      setGameOver(true);
-      return;
-    }
 
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [timeLeft]);
 
   useEffect(() => {
     calculateCursor();
@@ -287,14 +259,6 @@ function Game() {
       console.log("down");
     }
     setCursor(newCursor);
-  };
-
-  const updateTime = (n: number) => {
-    if (timeLeft + n > timeLimit) {
-      setTimeLeft(timeLimit);
-    } else {
-      setTimeLeft((prevTime) => prevTime + n);
-    }
   };
 
   const addRowHandle = () => {

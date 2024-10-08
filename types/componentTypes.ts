@@ -32,3 +32,4 @@ export interface GridProps {
   selected: boolean;
   blockLocation: selectedBlockType;
 }
+
