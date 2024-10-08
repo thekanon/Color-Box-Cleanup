@@ -307,7 +307,8 @@ function Game() {
       <div
         className="bg-blue h-6 rounded-full text-white text-left font-bold text-sm transition-all duration-300 ease-in-out overflow-hidden shadow-lg mb-2"
         style={{
-          width: `${(timeLeft / timeLimit) * 100}%`,
+          width: `${Math.min((timeLeft / timeLimit) * 100, 100)}%`,
+
         }}
       >
         <div
