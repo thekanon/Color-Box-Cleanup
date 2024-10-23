@@ -99,7 +99,7 @@ function Game() {
 
       // 행을 기준으로 모든 열이 none이면 행을 삭제
       while (
-        newGrid[newGrid.length - 1].every((block) => block.color === "none")
+        newGrid[newGrid.length - 1]?.every((block) => block.color === "none")
       ) {
         newGrid.pop();
       }
@@ -148,6 +148,11 @@ function Game() {
     const newGrid = [...grid];
     const [row, col] = cursor;
     const [newRow, newCol] = newCursor;
+    // row가 -1인 경우 early return
+    if (row < 0) {
+      console.log("유효하지 않은 블록 위치입니다.");
+      return;
+    }
     const temp = newGrid[row][col];
 
     // 이동하려는 위치에 이미 블록이 있는지 확인
