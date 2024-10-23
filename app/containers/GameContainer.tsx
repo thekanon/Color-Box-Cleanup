@@ -9,41 +9,24 @@ import React, {
 import { BlockProps, gridType } from "@/types/componentTypes";
 import Grid from "@/ui/molecules/Grid";
 
-import {
-  maxRows,
-  columns,
-  timeLimit,
-} from "@/lib/constants";
+import { maxRows, columns, timeLimit } from "@/lib/constants";
 import useGameLogic from "@/app/hooks/useGameLogic";
 import useInitGame from "@/app/hooks/useInitGame";
 import useTimeHandle from "@/app/hooks/useTimeHandle";
 
-
 function Game() {
   const containerRef = useRef<HTMLDivElement>(null); // useRef를 생성합니다.
 
-  const {
-    grid,
-    setGrid,
-  } = useInitGame(containerRef);
+  const { grid, setGrid } = useInitGame(containerRef);
 
-  const {
-    level,
-    levelUp,
-    currentColors,
-    score,
-    setScore
-  } = useGameLogic(containerRef);
+  const { level, levelUp, currentColors, score, setScore } =
+    useGameLogic(containerRef);
 
-  const {
-    timeLeft,
-    updateTime,
-    gameOver
-  } = useTimeHandle()
+  const { timeLeft, updateTime, gameOver } = useTimeHandle();
 
   const [cursor, setCursor] = useState<[number, number]>([0, 1]);
   const [selected, setSelected] = useState<boolean>(false);
-
+  const [viewportHeight, setViewportHeight] = useState<number>(0);
 
   // 타이머 업데이트
   useEffect(() => {
@@ -54,11 +37,24 @@ function Game() {
     }
   }, [score, levelUp]);
 
-
   useEffect(() => {
     if (grid.length === 0) return;
     checkForConsecutiveColors(grid);
   }, [grid]);
+
+  const updateViewportHeight = useCallback(() => {
+    setViewportHeight(window.innerHeight);
+    document.documentElement.style.setProperty(
+      "--vh",
+      `${window.innerHeight * 0.01}px`
+    );
+  }, []);
+
+  useEffect(() => {
+    updateViewportHeight();
+    window.addEventListener("resize", updateViewportHeight);
+    return () => window.removeEventListener("resize", updateViewportHeight);
+  }, [updateViewportHeight]);
 
   const checkForConsecutiveColors = useCallback(
     (currentGrid: gridType) => {
@@ -143,9 +139,6 @@ function Game() {
 
     if (newCursor !== cursor[0]) setCursor([newCursor, cursor[1]]);
   }, [cursor]);
-
-
-
 
   useEffect(() => {
     calculateCursor();
@@ -267,12 +260,14 @@ function Game() {
   };
 
   return (
-    <div className="h-screen flex flex-col">
+    <div
+      className="flex flex-col"
+      style={{ height: "calc(var(--vh, 1vh) * 100)" }}
+    >
       <div
         className="bg-blue h-6 rounded-full text-white text-left font-bold text-sm transition-all duration-300 ease-in-out overflow-hidden shadow-lg mb-2"
         style={{
           width: `${Math.min((timeLeft / timeLimit) * 100, 100)}%`,
-
         }}
       >
         <div
